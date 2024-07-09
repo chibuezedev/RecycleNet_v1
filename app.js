@@ -13,13 +13,13 @@ const mongoose = require("mongoose");
 dotenv.config();
 
 // Routes
-const errorController = require("./controllers/error");
+const errorController = require("./controllers/errorController");
 const User = require("./models/user");
 const homeRoutes = require("./routes/home");
 const authRoutes = require("./routes/auth");
 
 // Environment variables
-const MONGODB_LOG = process.env.MONGODB_LOG;
+const MONGODB_URL = process.env.MONGODB_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 const PORT = process.env.PORT || 3000;
 
@@ -38,7 +38,7 @@ app.use(flash());
 
 // Session middleware
 const store = new MongoDBStore({
-  uri: MONGODB_LOG,
+  uri: MONGODB_URL,
   collection: "sessions",
 });
 
@@ -95,11 +95,11 @@ app.use((error, req, res, next) => {
 });
 
 // Connect to MongoDB and start the server
-mongoose
-  .connect(MONGODB_LOG, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URL)
   .then((result) => {
     app.listen(PORT, () => {
       console.log(`Listening on port http://localhost:${PORT}`);
+      console.log("Connected to MongoDB");
     });
   })
   .catch((err) => {
