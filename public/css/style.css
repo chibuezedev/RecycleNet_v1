@@ -121,13 +121,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .logo {
-  font-size: 30px;
+  font-size: 15px;
   margin: 0;
   padding: 0;
+  padding-top: 10px;
   line-height: 1;
   font-weight: 500;
   letter-spacing: 2px;
-  text-transform: uppercase;
+
 }
 
 #header .logo a {
@@ -176,6 +177,16 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
   line-height: 0;
   margin-left: 5px;
+}
+
+.navbar a span {
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+  padding-top: 10px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 2px;
 }
 
 .navbar a:hover, .navbar .active, .navbar li:hover > a {
