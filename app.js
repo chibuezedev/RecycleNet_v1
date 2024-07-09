@@ -17,6 +17,7 @@ const errorController = require("./controllers/errorController");
 const User = require("./models/user");
 const homeRoutes = require("./routes/home");
 const authRoutes = require("./routes/auth");
+const complainRoutes = require("./routes/complain");
 
 // Environment variables
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -84,6 +85,7 @@ app.use((req, res, next) => {
 // Custom routes
 app.use(homeRoutes);
 app.use(authRoutes);
+app.use(complainRoutes)
 
 // Error handling routes
 app.get("/500", errorController.get500);
