@@ -1,30 +1,38 @@
-const User = require('../models/user')
-const Complain = require('../models/complain')
+const User = require('../models/user');
+const Complain = require('../models/complain');
 
 module.exports = {
   checkUserSession: async (req, res, next) => {
-    const { email, password } = req.session;
-    if (email && password) {
-      await connectToDB();
-      const user = await User.findOne({ email });
-      if (user) {
-        const { status, code } = user;
-        if (status === 'verified') {
-          if (code != 0) {
-            return res.redirect('../reset-code');
+    try {
+      const { email } = req.session;
+      if (email) {
+        const user = await User.findOne({ email });
+
+        if (user) {
+          const { status, code } = user;
+
+          if (status === 'verified') {
+            if (code !== 0) {
+              return res.redirect('/user-otp');
+            } else {
+              req.user = user;
+              next();
+            }
+          } else {
+            return res.redirect('/report');
           }
         } else {
-          return res.redirect('../user-otp');
+          return res.redirect('/login');
         }
-        req.user = user;
-        next();
       } else {
-        return res.redirect('../login');
+        return res.redirect('/signup');
       }
-    } else {
-      return res.redirect('../signup');
+    } catch (error) {
+      console.error('Error checking user session:', error);
+      return res.status(500).send('Internal Server Error');
     }
   },
+
   registerComplain: async (req, res) => {
     const { name, mobile, email, location, locationdescription, date, status } = req.body;
     const wastetype = req.body.wastetype.join(',');
@@ -44,12 +52,11 @@ module.exports = {
 
     try {
       const complain = await Complain.create(newComplain);
-      res.render('trash', { msg: 'Complain Registered Successfully!', alertType: 'success' });
+      req.flash('success', 'Complain registered successfully!');
+      res.session.complain(complain);
+      res.render('complain/success', { msg: 'Complain Registered Successfully!', alertType: 'success' });
     } catch (err) {
-      res.render('trash', { msg: 'Failed to Register!', alertType: 'warning' });
+      res.render('complain/index', { msg: 'Failed to Register!', alertType: 'warning' });
     }
-
-    // Send email notification (adjust the email settings as per your project)
-    // ...
   }
 };

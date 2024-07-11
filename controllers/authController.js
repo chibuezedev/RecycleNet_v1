@@ -64,7 +64,7 @@ exports.postSignup = async (req, res) => {
       } else {
         req.session.info = `We've sent a verification code to your email - ${email}`;
         req.session.email = email;
-        res.redirect("auth/user-otp");
+        res.redirect("/user-otp");
       }
     });
   }
@@ -93,11 +93,11 @@ exports.postLogin = async (req, res) => {
     } else {
       if (user.status !== "verified") {
         req.session.info = `It looks like you haven't verified your email - ${email}`;
-        res.redirect("auth/user-otp");
+        res.redirect("/user-otp");
         return;
       }
       req.session.user = user;
-      res.redirect("complain/index");
+      res.redirect("/report");
     }
   }
 
@@ -119,7 +119,7 @@ exports.postOTP = async (req, res) => {
     user.code = 0;
     await user.save();
     req.session.user = user;
-    res.redirect("complain/index");
+    res.redirect("/login");
   } else {
     res.render("auth/user-otp", {
       errors: ["Incorrect code"],
@@ -200,7 +200,7 @@ exports.postNewPassword = async (req, res) => {
 
     req.session.info =
       "Your password has been changed. Now you can login with your new password.";
-    res.redirect("auth/password-changed");
+    res.redirect("/password-changed");
   }
 };
 
