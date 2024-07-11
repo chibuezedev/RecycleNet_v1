@@ -19,10 +19,10 @@ module.exports = {
         req.user = user;
         next();
       } else {
-        return res.redirect('../login-user');
+        return res.redirect('../login');
       }
     } else {
-      return res.redirect('../login-user');
+      return res.redirect('../signup');
     }
   },
   registerComplain: async (req, res) => {
