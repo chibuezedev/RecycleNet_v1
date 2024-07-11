@@ -13,12 +13,9 @@
   </head>
   <body>
     <div>
-      <a
-        href="http://localhost/EmailVerification/index.html"
-        class="fa fa-home"
+      <a href="/" class="fa fa-home">
+        <button class="btn btn-default">Home</button></a
       >
-        Home
-      </a>
     </div>
     <form method="post" action="/complain" enctype="multipart/form-data">
       <div class="container">
@@ -115,11 +112,12 @@
                     name="location"
                     required
                   >
-                    <option>Ktm</option>
-                    <option>Bktpur</option>
-                    <option>lalitpur</option>
-                    <option>sanepa</option>
-                    <option>Kalanki</option>
+                    <option>Yahoo Junction</option>
+                    <option>Dynamo Junction</option>
+                    <option>Miracle Junction</option>
+                    <option>Netx Level</option>
+                    <option>Texas Junction</option>
+                    <option>Book Foundation</option>
                   </select>
                 </div>
               </div>
@@ -163,7 +161,10 @@
                     type="hidden"
                     class="form-control"
                     name="date"
-                    value="<%= new Date().toLocaleString('en-US', { timeZone: 'Asia/Kathmandu', hour: 'numeric', minute: 'numeric', hour12: true }) + ', ' + new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Kathmandu', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>"
+                    type="hidden"
+                    class="form-control"
+                    name="date"
+                    value="<%= new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos', hour: 'numeric', minute: 'numeric', hour12: true }) + ', ' + new Date().toLocaleDateString('en-US', { timeZone: 'Africa/Lagos', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>"
                   />
                   <button type="submit" class="btn btn-default" name="submit">
                     Register

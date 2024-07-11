@@ -16,7 +16,8 @@ const upload = multer({ storage: storage });
 router.use(controller.checkUserSession);
 
 router.get("/report", (req, res) => {
-  res.render("complain/index", { msg: "", alertType: "" });
+  const user = req.session.user;
+  res.render("complain/index", { msg: "", alertType: "", user: user });
 });
 
 router.post("/complain", upload.single("file"), controller.registerComplain);
