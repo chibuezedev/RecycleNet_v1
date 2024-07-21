@@ -13,7 +13,7 @@ const complainSchema = new Schema(
       required: true,
     },
     wasteType: {
-      type: String,
+      type: [String],
       required: true,
     },
     mobile: {
@@ -32,8 +32,8 @@ const complainSchema = new Schema(
       type: String,
     },
     date: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      // default: Date.now,
     },
     status: {
       type: String,
