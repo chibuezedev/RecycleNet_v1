@@ -75,28 +75,12 @@ app.use((req, res, next) => {
 //     });
 // });
 
-// CSRF protection middleware
-// app.use(csrfProtection);
-// app.use((req, res, next) => {
-//   res.locals.csrfToken = req.csrfToken();
-//   next();
-// });
-
 // Custom routes
 app.use(homeRoutes);
 app.use(authRoutes);
 app.use(complainRoutes)
 
-// // Error handling routes
-// app.get("/500", errorController.get500);
-// app.use(errorController.get404);
 
-// // Error handling middleware
-// app.use((error, req, res, next) => {
-//   res.status(500).render("500", { pageTitle: "Error!", path: "/500" });
-// });
-
-// Connect to MongoDB and start the server
 mongoose.connect(MONGODB_URL)
   .then((result) => {
     app.listen(PORT, () => {

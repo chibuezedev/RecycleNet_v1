@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+    <title>Success Message</title>
+    <link rel="stylesheet" href="css/trash/success.css" />
+  </head>
+  <body>
+    <div class="success-message">
+      <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark">
+        <circle cx="38" cy="38" r="36" />
+        <path
+          fill="none"
+          stroke="#FFFFFF"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-miterlimit="10"
+          d="M17.7,40.9l10.9,10.9l28.7-28.7"
+        />
+      </svg>
+      <h1 class="success-message__title">Message Received</h1>
+      <div class="success-message__content">
+        <p>
+          Dear <%= user.name %>, We Received your Complaint, and we have taken
+          record of your submition, Our Executives are on the way!
+        </p>
+      </div>
+      <a href="/" class="success-message__link">Return to Homepage</a>
+    </div>
+    <script src="js/success.js"></script>
+  </body>
+</html>

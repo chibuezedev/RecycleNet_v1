@@ -45,13 +45,13 @@ exports.postSignup = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.OFFICIAL_USER_EMAIL,
-        pass: process.env.OFFICIAL_USER_PASSWORD,
+        user: process.env.GOOGLE_USER_EMAIL,
+        pass: process.env.GOOGLE_USER_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: process.env.OFFICIAL_USER_EMAIL,
+      from: process.env.GOOGLE_USER_EMAIL,
       to: email,
       subject: "Email Verification Code",
       text: `Your verification code is ${code}`,
@@ -149,13 +149,13 @@ exports.postResetPassword = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.OFFICIAL_USER_EMAIL,
-        pass: process.env.OFFICIAL_USER_PASSWORD,
+        user: process.env.GOOGLE_USER_EMAIL,
+        pass: process.env.GOOGLE_USER_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: process.env.OFFICIAL_USER_EMAIL,
+      from: process.env.GOOGLE_USER_EMAIL,
       to: email,
       subject: "Password Reset Code",
       text: `Your password reset code is ${code}`,

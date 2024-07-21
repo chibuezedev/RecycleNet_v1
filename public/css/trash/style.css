@@ -1,16 +1,81 @@
-body{
-    background-color: #25274d;
-}
+
+--------------------------------------------------------------*/
+body {
+    font-family: "Jost", sans-serif;
+    color: #444444;
+  }
+  
+  a {
+    color: #47b2e4;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #73c5eb;
+    text-decoration: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Jost", sans-serif;
+  }
+  
+  /*--------------------------------------------------------------
+  # Preloader
+  --------------------------------------------------------------*/
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #37517e;
+  }
+  
+  #preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #37517e;
+    border-top-color: #fff;
+    border-bottom-color: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: animate-preloader 1s linear infinite;
+    animation: animate-preloader 1s linear infinite;
+  }
+  
+  @-webkit-keyframes animate-preloader {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes animate-preloader {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 .contact{
     padding: 4%;
     height: 400px;
 }
-.col-md-3{
-    background: lightblue;
+/* .col-md-3{
+    background: #25274d;
     padding: 4%;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-}
+} */
 .contact-info{
     margin-top:10%;
 }
@@ -18,11 +83,12 @@ body{
     margin-bottom: 15%;
     width: 150px;
     height: 150px;
-    border-radius: 50%;
-    
+
 }
 .contact-info h2{
     margin-bottom: 10%;
+    font-weight: 700;
+    font-size: 32px;
 }
 .col-md-9{
     background: #fff;
@@ -41,4 +107,11 @@ body{
 }
 .contact-form button:focus{
     box-shadow:none;
+}
+
+.fa-home{
+    color: #25274d;
+    font-size: 15px;
+    margin: 30px;
+    margin-top: auto;
 }
