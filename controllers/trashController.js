@@ -5,10 +5,10 @@ const sendEmail = require("../utils/email");
 module.exports = {
   checkUserSession: async (req, res, next) => {
     try {
-      const { email } = req.session;
+      const { email } = req.session.user;
+
       if (email) {
         const user = await User.findOne({ email });
-
         if (user) {
           const { status, code } = user;
 

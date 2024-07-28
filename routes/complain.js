@@ -1,24 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/trashController");
-const multer = require("multer");
-const path = require("path");
-
-const uploadDir = path.join(__dirname, "../upload");
-const fs = require("fs");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
+const upload = require("../utils/upload");
 
 router.use(controller.checkUserSession);
 
