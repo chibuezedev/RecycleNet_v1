@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/admin/login.css" />
+  </head>
+  <body background-color="#FFFFFF">
+    <div align="center">
+      <div
+        style="width: 800px; height: 300px; border: solid 1px #333333"
+        align="left"
+      >
+        <div style="background-color: #333333; color: #ffffff; padding: 3px">
+          <b>Admin Login</b>
+        </div>
+        <div style="margin: 30px">
+          <form action="/admin/login" method="POST">
+            <% if (errors.length === 1) { %>
+            <div class="alert alert-danger text-center"><%= errors[0] %></div>
+            <% } else if (errors.length > 1) { %>
+            <div class="alert alert-danger">
+              <ul>
+                <% errors.forEach(function(error) { %>
+                <li><%= error %></li>
+                <% }) %>
+              </ul>
+            </div>
+            <% } %>
+            <label for="uname"><b>Email</b></label>
+            <input
+              type="email"
+              name="email"
+              required
+              value="<%= email %>"
+              class="box"
+              placeholder="Enter your email"
+            /><br /><br />
+            <label for="uname"><b>Password</b></label>
+            <input
+              type="password"
+              name="password"
+              class="box"
+              placeholder="Enter your Password"
+            /><br /><br />
+            <button type="submit" name="submit">Login</button><br />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

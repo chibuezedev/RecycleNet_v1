@@ -15,6 +15,11 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  accountTye: {
+    type: String,
+    enum: ['Admin', 'User'],
+    default: 'User'
+  },
   code: Number,
   status: String,
   resetPasswordToken: String,
