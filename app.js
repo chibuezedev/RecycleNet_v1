@@ -13,11 +13,10 @@ const mongoose = require("mongoose");
 dotenv.config();
 
 // Routes
-const errorController = require("./controllers/errorController");
-const User = require("./models/user");
 const homeRoutes = require("./routes/home");
 const authRoutes = require("./routes/auth");
 const complainRoutes = require("./routes/complain");
+const adminRoutes = require("./routes/admin");
 
 // Environment variables
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -58,27 +57,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use((req, res, next) => {
-//   if (!req.session.user) {
-//     return next();
-//   }
-//   User.findById(req.session.user._id)
-//     .then((user) => {
-//       if (!user) {
-//         return next();
-//       }
-//       req.user = user;
-//       next();
-//     })
-//     .catch((err) => {
-//       next(new Error(err));
-//     });
-// });
 
 // Custom routes
 app.use(homeRoutes);
 app.use(authRoutes);
 app.use(complainRoutes)
+app.use(adminRoutes);
 
 
 mongoose.connect(MONGODB_URL)

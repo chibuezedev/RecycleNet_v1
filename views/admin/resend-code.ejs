@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Password Reset Code</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 offset-md-4 form">
+          <form action="/reset-code" method="POST" autocomplete="">
+            <h2 class="text-center">Password Reset Code</h2>
+            <p class="text-center">Enter your email address</p>
+            <% if (errors.length === 1) { %>
+            <div class="alert alert-danger text-center"><%= errors[0] %></div>
+            <% } else if (errors.length > 1) { %>
+            <div class="alert alert-danger">
+              <ul>
+                <% errors.forEach(function(error) { %>
+                <li><%= error %></li>
+                <% }) %>
+              </ul>
+            </div>
+            <% } %> <% if (info) { %>
+            <div class="alert alert-success text-center"><%= info %></div>
+            <% } %>
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                placeholder="Enter email address"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                class="form-control button"
+                type="submit"
+                name="check-email"
+                value="Continue"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
