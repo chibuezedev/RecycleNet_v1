@@ -41,11 +41,12 @@ module.exports = {
   },
 
   registerComplain: async (req, res) => {
-    const { name, mobile, location, locationdescription, date, status } = req.body;
+    const { name, mobile, location, locationdescription, date, status } =
+      req.body;
     const wastetype = req.body.wastetype.join(", ");
     const file = req.file;
     const user = req.session.user;
-  
+
     try {
       const newComplain = {
         name,
@@ -57,9 +58,9 @@ module.exports = {
         date,
         status,
       };
-  
+
       const complain = await Complain.create(newComplain);
-  
+
       // Upload the file to Cloudinary
       const imageUpload = await cloudinaryUploader(file, {
         allowedTypes: ALLOWED_IMAGE_TYPES,
@@ -68,15 +69,15 @@ module.exports = {
         overwrite: true,
         maxSize: MAX_IMAGE_SIZE,
       });
-  
+
       // Update the complain with the uploaded file URL
       await Complain.findByIdAndUpdate(complain._id, {
         file: imageUpload.secure_url,
       });
-  
+
       // Flash success message
       req.flash("success", "Complain registered successfully!");
-  
+
       const complainDetails = `
   Name: ${complain.name}
   Email: ${complain.email}
@@ -88,7 +89,7 @@ module.exports = {
   Date: ${complain.date}
   Status: ${complain.status}
       `;
-  
+
       // Send email notification to admin
       const emailSubject = "New Complaint Registered";
       const emailBody = `
@@ -101,9 +102,9 @@ module.exports = {
   
   Login to admin dashboard: http://localhost:3000/admin/new/complain
       `;
-  
+
       await sendEmail("paulpadro03@gmail.com", emailSubject, emailBody);
-  
+
       // Render success page
       res.render("complain/success", {
         msg: "Complain Registered Successfully!",
@@ -122,10 +123,10 @@ module.exports = {
   getComplaints: async (req, res) => {
     try {
       const user = req.session.user;
-      
+
       const complaints = await Complain.find({ email: user.email });
 
-      res.render("complain/user/history", { complaints , user: user});
+      res.render("complain/user/history", { complaints, user: user });
     } catch (error) {
       res.status(500).send("Server error");
     }
