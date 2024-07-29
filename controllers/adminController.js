@@ -55,7 +55,7 @@ const postAdminLogin = async (req, res) => {
         return;
       }
       req.session.user = user;
-      res.redirect("/dashboard");
+      res.redirect("/complaints");
     }
   }
 

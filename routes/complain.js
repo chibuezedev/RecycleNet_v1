@@ -21,4 +21,12 @@ router.get("/success", (req, res) => {
 
 router.post("/complain", upload.single("file"), controller.registerComplain);
 
+router.get("/complaints", controller.getComplaints)
+
+router.get("/delete/:id'", controller.deleteComplaint);
+
+router.get("/update/:id", controller.getUpdateComplaint)
+
+router.post("/update/:id", upload.single("file"), controller.postUpdateComplaint)
+
 module.exports = router;

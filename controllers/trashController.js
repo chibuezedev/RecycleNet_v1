@@ -59,15 +59,15 @@ module.exports = {
 
       // Format the complain details as plain text
       const complainDetails = `
-Name: ${complain.name}
-Email: ${complain.email}
-Waste Type: ${complain.wasteType}
-Mobile: ${complain.mobile}
-Location: ${complain.location}
-Location Description: ${complain.locationDescription}
-File: ${complain.file}
-Date: ${complain.date}
-Status: ${complain.status}
+    Name: ${complain.name}
+    Email: ${complain.email}
+    Waste Type: ${complain.wasteType}
+    Mobile: ${complain.mobile}
+    Location: ${complain.location}
+    Location Description: ${complain.locationDescription}
+    File: ${complain.file}
+    Date: ${complain.date}
+    Status: ${complain.status}
       `;
 
       // Send email notification to admin
@@ -97,6 +97,83 @@ Status: ${complain.status}
         msg: "Failed to Register!",
         alertType: "warning",
         user: user,
+      });
+    }
+  },
+
+  getComplaints: async (req, res) => {
+    try {
+      const complaints = await Complain.find();
+      res.render("complain/user/history", { complaints });
+    } catch (error) {
+      res.status(500).send("Server error");
+    }
+  },
+
+  deleteComplaint: async (req, res) => {
+    try {
+    
+      await Complain.findByIdAndDelete(req.params.id);
+      res.redirect("/complaints");
+    } catch (error) {
+      res.status(500).send("Server error");
+    }
+  },
+
+  getUpdateComplaint: async (req, res) => {
+    try {
+      const user = req.session.user;
+      const complaint = await Complain.findById(req.params.id);
+      res.render("complain/user/update", {
+        complaint,
+        msg: "",
+        alertType: "",
+        user: user,
+      });
+    } catch (error) {
+      res.status(500).send("Server error");
+    }
+  },
+
+  postUpdateComplaint: async (req, res) => {
+    try {
+      const {
+        name,
+        mobile,
+        email,
+        location,
+        locationDescription,
+        date,
+        status,
+      } = req.body;
+
+      const file = req.file ? req.file.filename : "";
+      const wastetype = req.body.wastetype
+
+      let updateData = {
+        name,
+        mobile,
+        email,
+        wastetype: wastetype,
+        location,
+        locationDescription,
+        date,
+        status,
+      };
+
+      if (req.file) {
+        updateData.file = file;
+      }
+
+      await Complain.findByIdAndUpdate(req.params.id, updateData);
+
+      res.redirect("/complaints");
+    } catch (error) {
+      console.error("Error registering complain:", error);
+      res.render("complain/index", {
+        msg: "Failed to Register!",
+        alertType: "warning",
+        user: req.session.user,
       });
     }
   },
