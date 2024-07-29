@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/trashController");
-const upload = require("../utils/upload");
+const upload = require("../helpers/multer");
 
 router.use(controller.checkUserSession);
 
@@ -23,7 +23,7 @@ router.post("/complain", upload.single("file"), controller.registerComplain);
 
 router.get("/complaints", controller.getComplaints)
 
-router.get("/delete/:id'", controller.deleteComplaint);
+router.get("/delete/:id", controller.deleteComplaint);
 
 router.get("/update/:id", controller.getUpdateComplaint)
 

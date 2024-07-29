@@ -1,6 +1,12 @@
+const fs = require("fs");
+const path = require("path");
 const User = require("../models/user");
 const Complain = require("../models/complain");
 const sendEmail = require("../utils/email");
+const cloudinaryUploader = require("../utils/cloudinaryUploader");
+
+const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg"];
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
 module.exports = {
   checkUserSession: async (req, res, next) => {
@@ -35,57 +41,70 @@ module.exports = {
   },
 
   registerComplain: async (req, res) => {
-    const { name, mobile, email, location, locationdescription, date, status } =
-      req.body;
-    const wastetype = req.body.wastetype.join(",");
-    const file = req.file ? req.file.filename : "";
+    const { name, mobile, location, locationdescription, date, status } = req.body;
+    const wastetype = req.body.wastetype.join(", ");
+    const file = req.file;
     const user = req.session.user;
-
-    const newComplain = {
-      name,
-      mobile,
-      email: user.email,
-      wasteType: wastetype,
-      location,
-      locationDescription: locationdescription,
-      file,
-      date,
-      status,
-    };
-
+  
     try {
+      const newComplain = {
+        name,
+        mobile,
+        email: user.email,
+        wasteType: wastetype,
+        location,
+        locationDescription: locationdescription,
+        date,
+        status,
+      };
+  
       const complain = await Complain.create(newComplain);
+  
+      // Upload the file to Cloudinary
+      const imageUpload = await cloudinaryUploader(file, {
+        allowedTypes: ALLOWED_IMAGE_TYPES,
+        folder: "recycleNet/images",
+        public_id: `complaint-${complain._id.toString()}`,
+        overwrite: true,
+        maxSize: MAX_IMAGE_SIZE,
+      });
+  
+      // Update the complain with the uploaded file URL
+      await Complain.findByIdAndUpdate(complain._id, {
+        file: imageUpload.secure_url,
+      });
+  
+      // Flash success message
       req.flash("success", "Complain registered successfully!");
-
-      // Format the complain details as plain text
+  
       const complainDetails = `
-    Name: ${complain.name}
-    Email: ${complain.email}
-    Waste Type: ${complain.wasteType}
-    Mobile: ${complain.mobile}
-    Location: ${complain.location}
-    Location Description: ${complain.locationDescription}
-    File: ${complain.file}
-    Date: ${complain.date}
-    Status: ${complain.status}
+  Name: ${complain.name}
+  Email: ${complain.email}
+  Waste Type: ${complain.wasteType}
+  Mobile: ${complain.mobile}
+  Location: ${complain.location}
+  Location Description: ${complain.locationDescription}
+  File: ${complain.file}
+  Date: ${complain.date}
+  Status: ${complain.status}
       `;
-
+  
       // Send email notification to admin
-      await sendEmail(
-        "paulpadro03@gmail.com",
-        "New Complain Registered",
-        `<div>
-          <h1>New Complain Registered</h1>
-          <p>A new complain has been registered by ${user.name}</p>
-        <hr />
-          <strong>Complain Details:</strong>
-          <pre>${complainDetails}</pre>
-        
-        <p>Login to admin dashboard: <a href="http://localhost:3000/admin/new/complain">Here</a></p>
-        </div>`
-      );
-
-      // Redirect to success page
+      const emailSubject = "New Complaint Registered";
+      const emailBody = `
+  New Complaint Registered
+  
+  A new complaint has been registered by ${user.name}
+  
+  Complaint Details:
+  ${complainDetails}
+  
+  Login to admin dashboard: http://localhost:3000/admin/new/complain
+      `;
+  
+      await sendEmail("paulpadro03@gmail.com", emailSubject, emailBody);
+  
+      // Render success page
       res.render("complain/success", {
         msg: "Complain Registered Successfully!",
         alertType: "success",
@@ -100,11 +119,13 @@ module.exports = {
       });
     }
   },
-
   getComplaints: async (req, res) => {
     try {
-      const complaints = await Complain.find();
-      res.render("complain/user/history", { complaints });
+      const user = req.session.user;
+      
+      const complaints = await Complain.find({ email: user.email });
+
+      res.render("complain/user/history", { complaints , user: user});
     } catch (error) {
       res.status(500).send("Server error");
     }
@@ -112,7 +133,6 @@ module.exports = {
 
   deleteComplaint: async (req, res) => {
     try {
-    
       await Complain.findByIdAndDelete(req.params.id);
       res.redirect("/complaints");
     } catch (error) {
@@ -148,7 +168,7 @@ module.exports = {
       } = req.body;
 
       const file = req.file ? req.file.filename : "";
-      const wastetype = req.body.wastetype
+      const wastetype = req.body.wastetype;
 
       let updateData = {
         name,
