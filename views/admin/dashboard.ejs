@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Dashboard</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link href="css/admin/dashboard.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <!-- Navigation -->
+      <nav
+        class="navbar navbar-inverse navbar-fixed-top"
+        role="navigation"
+        style="background-color: #37517e"
+      >
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">Admin Dashboard</a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <span class="navbar-text text-white"
+                >Hello, <%= user.name %>!</span
+              >
+            </li>
+            <li>
+              <a href="/admin/logout" class="logout-link">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-wrapper">
+        <div class="container-fluid">
+          <div class="row" id="main">
+            <div class="col-sm-12 col-md-12 well" id="content">
+              <h3 style="margin-top: 50px; font-weight: 700">
+                <script>
+                  new Date().getDay();
+                </script>
+              </h3>
+              <table cellspacing="12" class="table">
+                <tr class="panel-heading">
+                  <th>Images</th>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Email</th>
+                  <th>Waste Category</th>
+                  <th>Location</th>
+                  <th>Location Description</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                  <th>Update status</th>
+                </tr>
+                <% data.forEach(function(result) { %>
+                <tr class="panel panel-blue">
+                  <td>
+                    <a href="<%= result.file %>"
+                      ><img src="<%=result.file %>" height="200" width="200"
+                    /></a>
+                  </td>
+                  <td><%= result.date %></td>
+                  <td><%= result.name %></td>
+                  <td><%= result.mobile %></td>
+                  <td><%= result.email %></td>
+                  <td><%= result.wasteType %></td>
+                  <td><%= result.location %></td>
+                  <td><%= result.locationDescription %></td>
+                  <td><%= result.status %></td>
+                  <td>
+                    <a href="/delete/<%= result._id %>" class="btn btn-danger"
+                      >Delete</a
+                    >
+                  </td>
+                  <td>
+                    <a
+                      href="/status/<%= result._id %>/<%= result.status %>"
+                      class="btn btn-success"
+                      >Status</a
+                    >
+                  </td>
+                </tr>
+                <% }); %>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="preloader"></div>
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

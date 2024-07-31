@@ -1,32 +1,24 @@
 const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/trashController");
+
+const controllers = require("../controllers/complainController");
 const upload = require("../helpers/multer");
+const checkUserSession = require("../middlewares/is-Auth");
 
-router.use(controller.checkUserSession);
+const router = express.Router();
+router.use(checkUserSession);
 
-router.get("/report", (req, res) => {
-  const user = req.session.user;
-  res.render("complain/index", { msg: "", alertType: "", user: user });
-});
+router.get("/report", controllers.getReport);
 
-router.get("/success", (req, res) => {
-  const user = req.session.user;
-  res.render("complain/success", {
-    msg: "Complaint submitted successfully",
-    alertType: "success",
-    user: user,
-  });
-});
+router.get("/success", controllers.getSuccess);
 
-router.post("/complain", upload.single("file"), controller.registerComplain);
+router.post("/complain", upload.single("file"), controllers.registerComplain);
 
-router.get("/complaints", controller.getComplaints)
+router.get("/complaints", controllers.getComplaints);
 
-router.get("/delete/:id", controller.deleteComplaint);
+router.get("/delete/:id", controllers.deleteComplaint);
 
-router.get("/update/:id", controller.getUpdateComplaint)
+router.get("/update/:id", controllers.getUpdateComplaint);
 
-router.post("/update/:id", upload.single("file"), controller.postUpdateComplaint)
+router.post("/update/:id", upload.single("file"), controllers.postUpdateComplaint);
 
 module.exports = router;

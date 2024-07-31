@@ -6,68 +6,7 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <style>
-      body {
-        margin: 0;
-        font-family: "Lato", sans-serif;
-      }
-
-      .sidebar {
-        margin: 0;
-        padding: 0;
-        width: 150px;
-        background-color: #37517e;
-        position: fixed;
-        height: 100%;
-        overflow: auto;
-      }
-
-      .sidebar a {
-        display: block;
-        color: white;
-        padding: 16px;
-        text-decoration: none;
-      }
-      .sidebar a:hover {
-        color: whitesmoke;
-        text-decoration: none;
-      }
-      /* div.content {
-      margin-left: 200px;
-      padding: 1px 16px;
-      height: 1000px;
-    } */
-      .logo1 {
-        border-radius: 50%;
-      }
-
-      @media screen and (max-width: 700px) {
-        .sidebar {
-          width: 100%;
-          height: auto;
-          position: relative;
-        }
-        .sidebar a {
-          float: left;
-        }
-        div.content {
-          margin-left: 0;
-        }
-      }
-
-      @media screen and (max-width: 400px) {
-        .sidebar a {
-          text-align: center;
-          float: none;
-        }
-      }
-      #ch {
-        position: fixed;
-        text-align: center;
-        overflow: hidden;
-      }
-    </style>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="css/trash/complain.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -77,11 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="sidebar">
-      <a href="/" class="fa fa-home"><strong> Home </strong></a>
-      <h5>Welcome, <%= user.name %></h5>
-    </div>
-    <br />
+
     <div class="container" id="ch">
       <b><mark> YOUR COMPLAIN HISTORY </mark></b>
     </div>
@@ -111,7 +46,7 @@
           <td><%= complaint.locationDescription %></td>
 
           <td>
-            <a href="<%= complaint.file %>">
+            <a href="<%= complaint.file %>" target="_blank">
               <img src="<%= complaint.file %>" height="200" width="200" />
             </a>
           </td>
