@@ -33,7 +33,6 @@ const complainSchema = new Schema(
     },
     date: {
       type: String,
-      // default: Date.now,
     },
     status: {
       type: String,

@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/user");
+const Complaint = require("../models/complain");
 
 const getAdminSignup = (req, res) => {
   res.render("admin/signup", { errors: [], name: "", email: "" });
@@ -55,7 +56,7 @@ const postAdminLogin = async (req, res) => {
         return;
       }
       req.session.user = user;
-      res.redirect("/complaints");
+      res.redirect("/admin/dashboard");
     }
   }
 
@@ -64,9 +65,58 @@ const postAdminLogin = async (req, res) => {
   }
 };
 
+const getAdminDashboard = async (req, res) => {
+  try {
+    const user = req.session.user;
+    const data = await Complaint.find();
+    res.render("admin/dashboard", {
+      data: data,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const adminDeleteComplain = async (req, res) => {
+  try {
+    await Complaint.findByIdAndDelete(req.params.id);
+    res.redirect("/admin/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("An error occurred");
+  }
+};
+
+const adminUpdateComplainStatus = async (req, res) => {
+  try {
+    const newStatus =
+      req.params.status === "pending" || "Pending" ? "completed" : "pending";
+    await Complaint.findByIdAndUpdate(req.params.id, { status: newStatus });
+    res.redirect("/admin/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("An error occurred");
+  }
+};
+
+const adminLogout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return res.status(500).send("Error logging out");
+    }
+    res.redirect("/");
+  });
+};
+
 module.exports = {
   getAdminSignup,
   postAdminSignup,
   postAdminLogin,
   getAdminLogin,
+  adminLogout,
+  getAdminDashboard,
+  adminDeleteComplain,
+  adminUpdateComplainStatus,
 };
